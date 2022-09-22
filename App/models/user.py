@@ -1,19 +1,24 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
+from flask_login import UserMixin
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username =  db.Column(db.String, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+class User(db.Model,UserMixin):
+    id = db.Column('id', db.Integer, primary_key=True)
+    username =  db.Column('username', db.String(60), nullable=False)
+    password = db.Column('password', db.String(120), nullable=False)
+    email = db.Column('email', db.String(60), nullable=False, unique=True)
+    profile = db.relationship('Profile', backref='user',cascade='all, delete', lazy='dynamic')
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, email):
         self.username = username
         self.set_password(password)
+        self.email = email
 
-    def toJSON(self):
+    def toDict(self):
         return{
             'id': self.id,
-            'username': self.username
+            'username': self.username,
+            'email': self.email
         }
 
     def set_password(self, password):
