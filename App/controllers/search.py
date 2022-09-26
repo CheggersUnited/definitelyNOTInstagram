@@ -1,5 +1,4 @@
-from App.models import Profile, Programme
-from App.database import db
+from App.models import Profile
 
 def user_search(name):
     if name.count(' ') == 0:
@@ -29,30 +28,4 @@ def user_search(name):
                 return user.all()
             return None
     else:
-         return 'Invalid'
-
-def adv_search(fields):
-    valid_fields = dict()
-    profile = db.session.query(Profile)
-    for key in fields:
-        if fields[key] is not None and fields[key] != '':
-            valid_fields[key] = fields[key]
-
-    if 'last_name' in valid_fields:
-        if valid_fields['last_name'].islower():
-            valid_fields['last_name'] = valid_fields['last_name'].capitalize()
-        profile = profile.filter_by(last_name = valid_fields['last_name'])
-    if 'first_name' in valid_fields:
-        if valid_fields['first_name'].islower():
-            valid_fields['first_name'] = valid_fields['first_name'].capitalize()
-        profile = profile.filter_by(first_name = valid_fields['first_name'])   
-    if 'graduation_year' in valid_fields:
-        profile = profile.filter_by(graduation_year = valid_fields['graduation_year'])
-    if 'degree' in valid_fields:
-        profile = profile.filter(Profile.programme.has(degree = valid_fields['degree']))
-    if 'name' in valid_fields:
-        profile = profile.filter(Profile.programme.has(name = valid_fields['name']))
-
-    obj = profile.all()
-    return obj
-    
+         return 'Invalid'    
