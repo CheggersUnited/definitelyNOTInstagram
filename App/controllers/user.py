@@ -1,10 +1,15 @@
 from App.models import User,Profile
 from App.database import db
 from sqlalchemy.exc import IntegrityError
+import json
 
 def get_all_users():
     users = Profile.query.all()
     return users
+
+def get_all_users_json():
+    users = Profile.query.all()
+    return [user.toDict() for user in users]
 
 def get_user(username):
     return User.query.filter_by(username=username).first()
@@ -21,6 +26,8 @@ def create_user(username, password, email):
 def create_profile(email,profile_data):
     try:
         user = User.query.filter_by(email = email).first()
+        profile_data = json.loads(profile_data)
+        print(profile_data['first_name'])
         profile = Profile(
                 uid = user.id,
                 first_name = profile_data['first_name'],

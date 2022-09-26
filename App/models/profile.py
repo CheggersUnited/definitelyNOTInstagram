@@ -17,7 +17,7 @@ class Profile(db.Model):
                 'first_name' :self.first_name,
                 'last_name' :self.last_name,
                 'rating': self.rating,
-                'tier_points': self.tier_points,
+                'tier_points': self.points,
                 'tier': self.tier,
                 'pro_pic': self.url
             }
