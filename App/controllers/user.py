@@ -7,10 +7,6 @@ def get_all_users():
     users = Profile.query.all()
     return users
 
-def get_all_users_json():
-    users = Profile.query.all()
-    return [user.toDict() for user in users]
-
 def get_user(username):
     return User.query.filter_by(username=username).first()
 
@@ -23,6 +19,12 @@ def create_user(username, password, email):
     except IntegrityError:
         return False
 
+def user_profile_create(form,filename):
+    done = create_user(form["username"],form["password"],form["email"])
+    return done   
+
+def get_rand_users():
+    pass
 def create_profile(email,profile_data):
     try:
         user = User.query.filter_by(email = email).first()

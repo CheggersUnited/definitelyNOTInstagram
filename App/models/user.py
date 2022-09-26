@@ -7,18 +7,29 @@ class User(db.Model,UserMixin):
     username =  db.Column('username', db.String(60), nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
     email = db.Column('email', db.String(60), nullable=False, unique=True)
-    profile = db.relationship('Profile', backref='user',cascade='all, delete', lazy='dynamic')
+    image = db.Column('image', db.String(60), nullable=True)
+    tier = db.Column('tier', db.Integer,nullable=False)
+    limit = db.Column('limit', db.Integer, nullable=False)
 
-    def __init__(self, username, password, email):
+    def __init__(self, username, password, email,image):
         self.username = username
         self.set_password(password)
         self.email = email
+        self.image = image
+        self.tier = 1
+        self.limit = 5
+        self.likes = 0
+        self.dislikes = 0
 
     def toDict(self):
         return{
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'image': self.image,
+            'tier': self.tier,
+            'limit': self.limit,
+            'points': self.points
         }
 
     def set_password(self, password):
