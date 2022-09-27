@@ -11,6 +11,7 @@ class User(db.Model,UserMixin):
     points = db.Column('points', db.Integer, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
+    views = db.Column('views', db.Integer, nullable = True)
 
     def __init__(self, username, password, email, image):
         self.username = username

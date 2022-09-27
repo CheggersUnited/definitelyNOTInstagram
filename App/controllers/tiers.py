@@ -1,7 +1,7 @@
 from models import User
 from controllers import user
 
-def like(username):
+def like_a_pic(username):
     user = user.get_user(username=username)
     if user.tier == 1:
         user.points += user.tier
@@ -10,12 +10,19 @@ def like(username):
     return True
 
 
-def dislike(username):
+def dislike_a_pic(username):
     user = user.get_user(username=username)
     if (user.points - 0.5) >= 0:
         user.points -= 0.5
     return True
     
+def update_limits(user):
+        user = User.query.get(username=username)
+        if user.tier is not 10:
+            user.limit += (user.tier - 1)
+        else:
+            user.limit = float('inf')
+        return True
 
 def tier_update(username):
     user = user.get_user(username=username)
@@ -37,7 +44,4 @@ def tier_update(username):
         user.tier = 9
     elif(user.points >= 91 and user.points <= 100):
         user.tier = 10
-    return True
-
-    def limits(username):
-        pass
+    return update_limits(user)
