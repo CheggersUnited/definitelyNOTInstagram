@@ -1,6 +1,8 @@
 from App.models import User
 from App.database import db
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import desc
+import random
 
 def get_all_users():
     users = User.query.all()
@@ -27,7 +29,12 @@ def user_profile_create(form,filename):
     return done   
 
 def get_rand_users():
-    pass
+    users = User.query.all()
+    return random.shuffle(users)
+
+def get_ranked_users():
+    users = User.query.all().order_by(User.points)
+    return users
 
 def update_views(username):
     user = User.query.get(username=username)
