@@ -6,7 +6,7 @@ from App.models import User
 login_manager = LoginManager()
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return User.query.get(id=user_id)
 
 def authenticate(username, password):
     user = User.query.filter_by(username=username).first()
@@ -17,10 +17,11 @@ def identity(payload):
     return User.query.get(payload['identity'])
 
 def loginuser(user, remember):
+    user.views = 0
     return login_user(user, remember=remember)
 
 def logoutuser():
-    logout_user()
+    return logout_user()
 
 def setup_jwt(app):
     return JWT(app, authenticate, identity)

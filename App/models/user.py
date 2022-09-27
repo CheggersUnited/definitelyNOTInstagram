@@ -7,19 +7,20 @@ class User(db.Model,UserMixin):
     username =  db.Column('username', db.String(60), nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
     email = db.Column('email', db.String(60), nullable=False, unique=True)
-    image = db.Column('image', db.String(60), nullable=True)
+    image = db.Column('image', db.String(120), nullable=False)
+    points = db.Column('points', db.Integer, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
+    views = db.Column('views', db.Integer, nullable = True)
 
-    def __init__(self, username, password, email,image):
+    def __init__(self, username, password, email, image):
         self.username = username
         self.set_password(password)
         self.email = email
         self.image = image
         self.tier = 1
         self.limit = 5
-        self.likes = 0
-        self.dislikes = 0
+        self.points = 0
 
     def toDict(self):
         return{

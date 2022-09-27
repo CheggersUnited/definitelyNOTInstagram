@@ -1,25 +1,21 @@
 from App.models import User
 from App.database import db
 from sqlalchemy.exc import IntegrityError
-from App.controllers import firebaseconfig
-from os import remove
+from sqlalchemy import desc
+import random
 
 def get_all_users():
-    users = Profile.query.all()
+    users = User.query.all()
     return users
 
-# def get_programmes():
-#     programmeList = []
-#     programmes = Programme.query.all()
-#     for p in programmes:
-#         if p.name not in programmeList:
-#             programmeList.append(p.name)
-#     return programmeList
+def get_all_users_json():
+    users = User.query.all()
+    return [user.toDict() for user in users]
 
 def get_user(username):
     return User.query.filter_by(username=username).first()
 
-def create_user(username, password, email):
+def create_user(username, password, email, image):
     newuser = User(username=username, password=password, email=email)
     try:
         db.session.add(newuser)
@@ -29,8 +25,23 @@ def create_user(username, password, email):
         return False
 
 def user_profile_create(form,filename):
-    done = create_user(form["username"],form["password"],form["email"])
+    done = create_user(form["username"],form["password"],form["email"], form["image"])
     return done   
 
 def get_rand_users():
-    pass
+    users = User.query.all()
+    return random.shuffle(users)
+
+def get_ranked_users():
+    users = User.query.all().order_by(User.points)
+    return users
+
+def update_views(username):
+    user = User.query.get(username=username)
+    if user.views < user.limit:
+        user.views += 1
+        return True
+    return False
+
+def like_or_dislike(user):
+    return update_views(user.username)

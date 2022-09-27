@@ -1,10 +1,7 @@
 import os
 from flask import Flask
 from flask_login import LoginManager, current_user
-from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 
 
@@ -50,11 +47,6 @@ def create_app(config={}):
     CORS(app)
     loadConfig(app, config)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.config['PREFERRED_URL_SCHEME'] = 'https'
-    app.config['UPLOADED_PHOTOS_DEST'] = "App/uploads"
-    photos = UploadSet('photos', TEXT + DOCUMENTS + IMAGES)
-    configure_uploads(app, photos)
     add_views(app, views)
     create_db(app)
     setup_jwt(app)
