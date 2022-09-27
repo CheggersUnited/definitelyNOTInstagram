@@ -19,7 +19,7 @@ def dislike(username):
 
 def tier_update(username):
     user = user.get_user(username=username)
-    if(user.points >= 10 and user.points <= 20):
+    if(user.points >= 11 and user.points <= 20):
         user.tier = 2
     elif(user.points >= 21 and user.points <= 30):
         user.tier = 3
