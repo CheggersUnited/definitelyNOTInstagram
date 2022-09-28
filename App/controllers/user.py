@@ -12,8 +12,8 @@ def get_all_users_json():
     users = User.query.all()
     return [user.toDict() for user in users]
 
-def get_user(username):
-    return User.query.filter_by(username=username).first()
+def get_user(id):
+    return User.query.filter_by(id=id).first()
 
 def create_user(username, password, email, image):
     newuser = User(username=username, password=password, email=email, image=image)
@@ -30,11 +30,12 @@ def user_profile_create(form):
 
 def get_rand_users():
     users = User.query.all()
-    return random.shuffle(users)
+    users = random.sample(users, len(users))
+    return [user.toDict() for user in users]
 
 def get_ranked_users():
-    users = User.query.all().order_by(User.points)
-    return users
+    users = User.query.order_by(User.points).all()
+    return [user.toDict() for user in users]
 
 def update_views(username):
     user = User.query.get(username=username)

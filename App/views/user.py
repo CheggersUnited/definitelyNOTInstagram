@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory
-from flask_jwt import jwt_required, current_user
+from flask_jwt import jwt_required, current_identity
 
 
 from App.controllers import (
@@ -34,30 +34,33 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 # def static_user_page():
 #   return send_from_directory('static', 'static-user.html')
 
-@jwt_required
-@user_views.route('/login',methods=['POST'])
-def login():
-    login_user()
+# @jwt_required
+# @user_views.route('/login',methods=['POST'])
+# def login():
+#     login_user()
 
 @user_views.route('/loadprofiles', methods=['GET'])
 def loadprofiles():
     users = get_rand_users()
+    current_identity
     return jsonify(users)
 
-@user_views.route('/profile/like',methods=['POST'])
-def like():
+
+
+@user_views.route('/<id>/like/<profile>',methods=['POST'])
+def like(id, profile):
     pass
 
-@user_views.route('/profile/dislike',methods=['POST'])
-def dislike():
+@user_views.route('/<id>/dislike/<profile>',methods=['POST'])
+def dislike(id, profile):
     pass
 
-@user_views.route('/profile/rankings',methods=['GET'])
+@user_views.route('/rankings',methods=['GET'])
 def rankings():
-    pass
+    users = get_ranked_users()
+    return jsonify(users)
 
-@user_views.route('/profile/my',methods=['GET'])
-def show_my_profile():
-    username = current_user.username
-    user = get_user(username)
+@user_views.route('/<id>',methods=['GET'])
+def show_my_profile(id):
+    user = get_user(id)
     return jsonify(user)

@@ -66,14 +66,17 @@ app.cli.add_command(user_cli) # add the group to the cli
 Generic Commands
 '''
 
+
 @app.cli.command("init")
 def initialize():
     create_db(app)
     print('database intialized')
 
+
 '''
 Test Commands
 '''
+
 
 test = AppGroup('test', help='Testing commands') 
 
