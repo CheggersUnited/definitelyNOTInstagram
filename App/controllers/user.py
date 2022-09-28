@@ -1,7 +1,7 @@
 from App.models import User
 from App.database import db
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import desc
+from sqlalchemy import desc 
 import random
 
 def get_all_users():
@@ -40,8 +40,9 @@ def update_views(username):
     user = User.query.get(username=username)
     if user.views < user.limit:
         user.views += 1
+        db.session.commit()
         return True
     return False
 
 def like_or_dislike(user):
-    return update_views(user.username)
+    return update_views(user.username) 
