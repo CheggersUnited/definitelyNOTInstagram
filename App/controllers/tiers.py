@@ -1,4 +1,4 @@
-from models import User
+from App.models import User
 from App.controllers import user
 from App.database import db
 
@@ -19,7 +19,7 @@ def dislike_a_pic(username):
         db.session.commit()
     return True
     
-def update_limits(user):
+def update_limit(user):
         user = User.query.get(username=username)
         if user.tier is not 10:
             user.limit += (user.tier - 1)

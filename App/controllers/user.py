@@ -16,15 +16,15 @@ def get_user(username):
     return User.query.filter_by(username=username).first()
 
 def create_user(username, password, email, image):
-    newuser = User(username=username, password=password, email=email)
-    try:
-        db.session.add(newuser)
-        db.session.commit()
-        return True
-    except IntegrityError:
-        return False
+    newuser = User(username=username, password=password, email=email, image=image)
+    # try:
+    db.session.add(newuser)
+    db.session.commit()
+    return True
+    # except IntegrityError:
+    #     return False
 
-def user_profile_create(form,filename):
+def user_profile_create(form):
     done = create_user(form["username"],form["password"],form["email"], form["image"])
     return done   
 
