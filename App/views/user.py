@@ -40,12 +40,10 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 #     login_user()
 
 @user_views.route('/loadprofiles', methods=['GET'])
+@jwt_required()
 def loadprofiles():
     users = get_rand_users()
-    current_identity
     return jsonify(users)
-
-
 
 @user_views.route('/<id>/like/<profile>',methods=['POST'])
 def like(id, profile):
@@ -56,11 +54,13 @@ def dislike(id, profile):
     pass
 
 @user_views.route('/rankings',methods=['GET'])
+@jwt_required()
 def rankings():
     users = get_ranked_users()
     return jsonify(users)
 
-@user_views.route('/<id>',methods=['GET'])
-def show_my_profile(id):
-    user = get_user(id)
-    return jsonify(user)
+@user_views.route('/my',methods=['GET'])
+@jwt_required()
+def show_my_profile():
+    user = get_user(current_identity.id)
+    return jsonify(user.toDict())

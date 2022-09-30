@@ -34,7 +34,7 @@ def get_rand_users():
     return [user.toDict() for user in users]
 
 def get_ranked_users():
-    users = User.query.order_by(User.points).all()
+    users = User.query.order_by(User.points.desc()).all()
     return [user.toDict() for user in users]
 
 def update_views(username):
