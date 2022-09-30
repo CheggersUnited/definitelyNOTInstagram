@@ -21,6 +21,7 @@ class User(db.Model,UserMixin):
         self.tier = 1
         self.limit = 5
         self.points = 0
+        self.views = 0
 
     def toDict(self):
         return{

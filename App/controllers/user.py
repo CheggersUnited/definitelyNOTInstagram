@@ -37,13 +37,19 @@ def get_ranked_users():
     users = User.query.order_by(User.points.desc()).all()
     return [user.toDict() for user in users]
 
-def update_views(username):
-    user = User.query.get(username=username)
+def update_views(id):
+    user = User.query.filter_by(id=id).first()
     if user.views < user.limit:
         user.views += 1
         db.session.commit()
         return True
     return False
 
-def like_or_dislike(user):
-    return update_views(user.username) 
+def reset_users():
+    users = get_all_users()
+    for user in users:
+        user.views = 0
+        user.points = 0
+        user.limit = 5
+    db.session.commit()
+    return
