@@ -43,7 +43,8 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 @user_views.route('/loadprofiles', methods=['GET'])
 @jwt_required()
 def loadprofiles():
-    users = get_rand_users()
+    id = current_identity.id
+    users = get_rand_users(id)
     return jsonify(users)
 
 @user_views.route('/like/<profile>',methods=['POST'])
