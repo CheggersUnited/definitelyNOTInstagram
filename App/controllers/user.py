@@ -28,9 +28,15 @@ def user_profile_create(form):
     done = create_user(form["username"],form["password"],form["email"], form["image"])
     return done   
 
-def get_rand_users():
-    users = User.query.all()
-    users = random.sample(users, len(users))
+def get_rand_users(id):
+    users = User.query.filter(User.distribution < User.limit).filter(User.id != id).all()
+    if len(users) < 20:
+        users = random.sample(users, len(users))
+    else:
+        users = random.sample(users, 20)
+    for user in users:
+        user.distribution += 1
+    db.session.commit()
     return [user.toDict() for user in users]
 
 def get_ranked_users():
@@ -51,5 +57,6 @@ def reset_users():
         user.views = 0
         user.points = 0
         user.limit = 5
+        user.distribution = 0
     db.session.commit()
     return

@@ -11,7 +11,8 @@ class User(db.Model,UserMixin):
     points = db.Column('points', db.Integer, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
-    views = db.Column('views', db.Integer, nullable = True)
+    views = db.Column('views', db.Integer, nullable = False)
+    distribution = db.Column('distribution', db.Integer, nullable=False)
 
     def __init__(self, username, password, email, image):
         self.username = username
@@ -22,6 +23,7 @@ class User(db.Model,UserMixin):
         self.limit = 5
         self.points = 0
         self.views = 0
+        self.distribution = 0
 
     def toDict(self):
         return{
@@ -31,7 +33,8 @@ class User(db.Model,UserMixin):
             'image': self.image,
             'tier': self.tier,
             'limit': self.limit,
-            'points': self.points
+            'points': self.points, 
+            'distribution': self.distribution
         }
 
     def set_password(self, password):
