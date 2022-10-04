@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-SQLALCHEMY_DATABASE_URI = "postgresql://kdawolxegettjr:9b044aa8bfc4ccb9360ceeb2c7373dbcfe9ec8eb57c94e14345d43b084e88794@ec2-34-200-205-45.compute-1.amazonaws.com:5432/dbig21ehld4gps"
+SQLALCHEMY_DATABASE_URI = "postgresql://asxkpiraqlaoqt:b5c3a1e67ee1f07a8c7609d2b2c32fa9ea7f8740bd74ccb57cc0bc081ba7b7ed@ec2-54-227-248-71.compute-1.amazonaws.com:5432/d6r48ejm7f1fsr"
 SECRET_KEY = "secret key"
 JWT_EXPIRATION_DELTA = 10
 ENV = "DEVELOPMENT"
