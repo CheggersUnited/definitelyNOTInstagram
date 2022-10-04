@@ -24,10 +24,23 @@ def create_user(username, password, email, image):
     # except IntegrityError:
     #     return False
 
-def user_profile_create(form):
-    done = create_user(form["username"],form["password"],form["email"], form["image"])
-    return done   
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return 'user successfully deleted'
+    return 'user not found'
 
+def update_user(id, image):
+    user = User.query.filter_by(id=id).first()
+    if user:
+        user.image = image
+        db.session.add(user)
+        db.session.commit()
+        return 'image successfully updated'
+    return 'user not found'
+    
 def get_rand_users(id):
     users = User.query.filter(User.distribution < User.limit).filter(User.id != id).all()
     if len(users) < 20:
