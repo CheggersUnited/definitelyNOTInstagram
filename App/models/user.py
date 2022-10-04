@@ -4,10 +4,10 @@ from sqlalchemy import relationship
 
 class User(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
-    username =  db.Column('username', db.String(60), nullable=False)
+    username =  db.Column('username', db.String(60), unique=True, nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
     email = db.Column('email', db.String(60), nullable=False)
-    points = db.Column('points', db.Integer, nullable=True)
+    points = db.Column('points', db.Integer, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
     views = db.Column('views', db.Integer, nullable = False)
@@ -34,6 +34,10 @@ class User(db.Model):
             'points': self.points, 
             'distribution': self.distribution
         }
+
+    def tally_points(self):
+        for picture in self.pictures:
+            self.points += picture.points
 
     def set_password(self, password):
         """Create hashed password."""

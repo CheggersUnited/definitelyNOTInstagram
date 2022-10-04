@@ -1,5 +1,4 @@
 from App.models import User
-# from App.controllers import user
 from App.database import db
 
 def interact(username):
