@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 SQLALCHEMY_DATABASE_URI = "sqlite:///temp-database.db"
 SECRET_KEY = "secret key"

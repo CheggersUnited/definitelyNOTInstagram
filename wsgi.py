@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user, user_profile_create )
+from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -46,13 +46,6 @@ def list_user_command(format):
         print(get_all_users())
     else:
         print(get_all_users_json())
-
-# @user_cli.command("createpro", help="Creates a Profile for a user")
-# @click.argument("email", default="bob@mail.com")
-# @click.argument("profile_data", default='{"first_name":"rob", "last_name":"bobbert", "url":"https://picsum.photos/600"}')
-# def create_profile_command(email, profile_data):
-#     user_profile_create(profile_data)
-#     print('Profile Created')
 
 @user_cli.command("get", help="Returns a user")
 @click.argument("username", default="rob")
