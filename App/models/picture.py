@@ -1,7 +1,9 @@
 from App.database import db
-from sqlalchemy import ForeignKey, relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Picture(db.Model):
+    __tablename__ = "picture"
     pid = db.Column('pid', db.Integer, primary_key=True)
     uid = db.Column('uid', db.Integer, ForeignKey('user.id'))
     url = db.Column('url', db.String(60), nullable=False)

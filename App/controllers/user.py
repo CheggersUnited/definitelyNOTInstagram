@@ -20,9 +20,9 @@ def create_user(username, password, email):
     try:
         db.session.add(newuser)
         db.session.commit()
-        return True
+        return newuser
     except IntegrityError:
-        return False
+        return None
 
 def delete_user(id):
     user = User.query.filter_by(id=id).first()
@@ -59,6 +59,5 @@ def reset_users():
         user.views = 0
         user.points = 0
         user.limit = 5
-        user.distribution = 0
     db.session.commit()
     return

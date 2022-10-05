@@ -2,20 +2,22 @@ from App.models import Picture
 from App.database import db
 from App.controllers.rating import add_rating
 from App.controllers.tiers import *
+from App.controllers.user import get_user
 
 def get_picture(pid):
     return Picture.query.filter_by(pid=pid).first()
 
 def add_picture(uid, url):
     picture = Picture(uid=uid, url=url)
-    if len(picture.user.pictures) < 5:
+    user = get_user(uid)
+    if len(user.pictures.all()) < 5:
         db.session.add(picture)
         db.session.commit()
         return "Picture added to {}'s profile".format(picture.user.username)
     return 'Unable to add any more pictures. Limit reached.'
 
 def delete_picture(pid):
-    picture = Picture.query.filter_by(pid=pid).first()
+    picture = get_picture(pid)
     if picture:
         db.session.delete(picture)
         db.session.commit()
@@ -27,6 +29,7 @@ def like_a_pic(uid, pid):
     rating.picture.points += 1
     rating.picture.user.points += 1
     interact(rating.user.id)
+    tier_update(rating.picture.user)
     db.session.commit()
     return True
     
@@ -38,5 +41,6 @@ def dislike_a_pic(uid, pid):
         rating.picture.points -= 0.5
     if (rating.picture.user.points - 0.5) > 0:
         rating.picture.user.points -= 0.5
+        tier_update(rating.picture.user)
         db.session.commit()
     return True

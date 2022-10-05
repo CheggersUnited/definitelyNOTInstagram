@@ -24,9 +24,9 @@ def update_limit(user):
     return True
 
 def tier_update(user):
-    if (user.points % 10) != 0:
-        user.tier = int(user.points / 10) + 1
-    else:
-        user.tier = int(user.points / 10)
+    tier = user.tier
+    user.tier = int(user.points / 10) + 1
+    if user.tier != tier:
+        update_limit(user)
     db.session.commit()
-    return update_limit(user)
+    return True

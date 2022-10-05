@@ -1,7 +1,9 @@
 from App.database import db
-from sqlalchemy import ForeignKey, relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 class Rating(db.Model):
+    __tablename__ = "rating"
     id = db.Column('id', db.Integer, primary_key=True)
     uid = db.Column('uid', db.Integer, ForeignKey('user.id'))
     pid = db.Column('pid', db.Integer, ForeignKey('picture.pid'))
