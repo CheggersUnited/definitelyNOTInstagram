@@ -1,29 +1,27 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
-from flask_login import UserMixin
+from sqlalchemy import relationship
 
-class User(db.Model,UserMixin):
+class User(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
-    username =  db.Column('username', db.String(60), nullable=False)
+    username =  db.Column('username', db.String(60), unique=True, nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
     email = db.Column('email', db.String(60), nullable=False)
-    image = db.Column('image', db.String(120), nullable=False)
     points = db.Column('points', db.Integer, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
     views = db.Column('views', db.Integer, nullable = False)
-    distribution = db.Column('distribution', db.Integer, nullable=False)
+    ratings = db.relationship('Rating', backref='user', lazy='dynamic')
+    pictures = db.relationship('Picture', backref='user', lazy='dynamic')
 
-    def __init__(self, username, password, email, image):
+    def __init__(self, username, password, email):
         self.username = username
         self.set_password(password)
         self.email = email
-        self.image = image
         self.tier = 1
         self.limit = 5
         self.points = 0
         self.views = 0
-        self.distribution = 0
 
     def toDict(self):
         return{
@@ -36,6 +34,10 @@ class User(db.Model,UserMixin):
             'points': self.points, 
             'distribution': self.distribution
         }
+
+    def tally_points(self):
+        for picture in self.pictures:
+            self.points += picture.points
 
     def set_password(self, password):
         """Create hashed password."""

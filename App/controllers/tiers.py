@@ -1,27 +1,15 @@
 from App.models import User
-# from App.controllers import user
 from App.database import db
+from App.controllers.user import get_user
 
-def interact(username):
-    user = User.query.filter_by(username=username).first()
+def interact(id):
+    user = get_user(id)
     if user.tier == 1:
         user.points += user.tier
     else:
         user.points += (1 - ((user.tier - 1)/10))
-    tier_update(username)
+    tier_update(user)
     db.session.commit()
-    return True
-
-def like_a_pic(username):
-    interact(username)
-    return True
-
-def dislike_a_pic(username):
-    user = User.query.filter_by(username=username).first()
-    if (user.points - 0.5) >= 0:
-        user.points -= 0.5
-        tier_update(username)
-        db.session.commit()
     return True
 
 def update_limit(user):
@@ -35,8 +23,7 @@ def update_limit(user):
     db.session.commit()   
     return True
 
-def tier_update(username):
-    user = User.query.filter_by(username=username).first()
+def tier_update(user):
     if (user.points % 10) != 0:
         user.tier = int(user.points / 10) + 1
     else:
