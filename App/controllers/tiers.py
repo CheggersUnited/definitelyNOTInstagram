@@ -8,20 +8,8 @@ def interact(id):
         user.points += user.tier
     else:
         user.points += (1 - ((user.tier - 1)/10))
-    tier_update(id)
+    tier_update(user)
     db.session.commit()
-    return True
-
-def like_a_pic(id):
-    interact(id)
-    return True
-
-def dislike_a_pic(id):
-    user = get_user(id)
-    if (user.points - 0.5) >= 0:
-        user.points -= 0.5
-        tier_update(id)
-        db.session.commit()
     return True
 
 def update_limit(user):
@@ -35,8 +23,7 @@ def update_limit(user):
     db.session.commit()   
     return True
 
-def tier_update(id):
-    user = get_user(id)
+def tier_update(user):
     if (user.points % 10) != 0:
         user.tier = int(user.points / 10) + 1
     else:

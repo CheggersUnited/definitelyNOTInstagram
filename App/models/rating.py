@@ -7,7 +7,7 @@ class Rating(db.Model):
     pid = db.Column('pid', db.Integer, ForeignKey('picture.pid'))
     rating = db.Column('rating', db.Boolean, nullable=True)
 
-    def __init__(self, uid, pid, pro_id, rating):
+    def __init__(self, uid, pid, rating):
         self.uid = uid
         self.pid = pid
         self.rating = rating
