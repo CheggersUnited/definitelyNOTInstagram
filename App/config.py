@@ -2,5 +2,5 @@
 # SQLALCHEMY_DATABASE_URI = "sqlite://///workspace/definitelyNOTInstagram/App/test.db"
 SQLALCHEMY_DATABASE_URI = "postgres://emdcjmwcdijtsf:d1f70dcf90fefcffc4a9e89cdbacc288d41b7b4c69507a4a374c81dfcc7b0bca@ec2-35-168-122-84.compute-1.amazonaws.com:5432/d90afinpk70a47"
 SECRET_KEY = "secret key"
-JWT_EXPIRATION_DELTA = timedelta(minutes=30)
+JWT_EXPIRATION_DELTA = 7
 ENV = "PRODUCTION"
