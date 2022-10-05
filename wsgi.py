@@ -32,7 +32,6 @@ user_cli = AppGroup('user', help='User object commands')
 @click.argument("username", default="rob")
 @click.argument("password", default="robpass")
 @click.argument("email", default="rob@mail.com")
-# @click.argument("image", default="https://picsum.photos/600")
 def create_user_command(username, password, email):
     user = create_user(username, password, email)
     if user:
@@ -50,6 +49,12 @@ def list_user_command(format):
         print(get_all_users())
     else:
         print(get_all_users_json())
+
+@user_cli.command('addpic', help="Adds a picture to user profile")
+@click.argument('uid')
+def add_pic(uid):
+    add_picture(uid, "https://picsum.photos/600")
+    print("picture added to {}'s profile".format(get_user(uid).username))
 
 @user_cli.command("get", help="Returns a user")
 @click.argument("id", default="1")

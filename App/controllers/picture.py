@@ -27,6 +27,7 @@ def delete_picture(pid):
 def like_a_pic(uid, pid):
     rating = add_rating(uid, pid, True)
     rating.picture.points += 1
+    rating.picture.likes += 1
     rating.picture.user.points += 1
     interact(rating.user.id)
     tier_update(rating.picture.user)
@@ -37,6 +38,7 @@ def like_a_pic(uid, pid):
 def dislike_a_pic(uid, pid):
     rating = add_rating(uid, pid, False)
     interact(rating.user.id)
+    rating.picture.dislikes += 1
     if (rating.picture.points - 0.5) > 0:
         rating.picture.points -= 0.5
     if (rating.picture.user.points - 0.5) > 0:

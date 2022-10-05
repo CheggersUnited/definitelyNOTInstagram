@@ -32,7 +32,7 @@ class User(db.Model):
             'tier': self.tier,
             'limit': self.limit,
             'points': self.points,
-            'pic': self.pictures.first().toDict()
+            'pic': self.pictures.all()
         }
 
     def set_password(self, password):

@@ -1,6 +1,6 @@
 from App.models import User
 from App.database import db
-from App.controllers.user import get_user
+from App.controllers.user import get_user, update_views
 
 def interact(id):
     user = get_user(id)
@@ -9,6 +9,7 @@ def interact(id):
     else:
         user.points += (1 - ((user.tier - 1)/10))
     db.session.commit()
+    update_views(user.id)
     tier_update(user)
     return True
 

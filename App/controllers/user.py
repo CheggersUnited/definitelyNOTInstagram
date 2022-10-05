@@ -25,7 +25,7 @@ def create_user(username, password, email):
         return None
 
 def delete_user(id):
-    user = User.query.filter_by(id=id).first()
+    user = get_user(id)
     if user:
         db.session.delete(user)
         db.session.commit()
@@ -46,7 +46,7 @@ def get_ranked_users():
     return users
 
 def update_views(id):
-    user = User.query.filter_by(id=id).first()
+    user = get_user(id)
     if user.views < user.limit:
         user.views += 1
         db.session.commit()
