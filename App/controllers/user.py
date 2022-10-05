@@ -20,12 +20,12 @@ def create_user(username, password, email):
     try:
         db.session.add(newuser)
         db.session.commit()
-        return True
+        return newuser
     except IntegrityError:
-        return False
+        return None
 
 def delete_user(id):
-    user = User.query.filter_by(id=id).first()
+    user = get_user(id)
     if user:
         db.session.delete(user)
         db.session.commit()
@@ -46,7 +46,7 @@ def get_ranked_users():
     return users
 
 def update_views(id):
-    user = User.query.filter_by(id=id).first()
+    user = get_user(id)
     if user.views < user.limit:
         user.views += 1
         db.session.commit()
@@ -59,6 +59,5 @@ def reset_users():
         user.views = 0
         user.points = 0
         user.limit = 5
-        user.distribution = 0
     db.session.commit()
     return

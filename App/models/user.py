@@ -1,8 +1,9 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
-from sqlalchemy import relationship
+from sqlalchemy.orm import relationship
 
 class User(db.Model):
+    __tablename__ = "user"
     id = db.Column('id', db.Integer, primary_key=True)
     username =  db.Column('username', db.String(60), unique=True, nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
@@ -28,16 +29,11 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'image': self.image,
             'tier': self.tier,
             'limit': self.limit,
-            'points': self.points, 
-            'distribution': self.distribution
+            'points': self.points,
+            'pic': self.pictures.all()
         }
-
-    def tally_points(self):
-        for picture in self.pictures:
-            self.points += picture.points
 
     def set_password(self, password):
         """Create hashed password."""

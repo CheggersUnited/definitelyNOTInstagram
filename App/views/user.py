@@ -4,7 +4,6 @@ from flask_jwt import current_identity, jwt_required
 from App.controllers import (
     create_user,
     delete_user, 
-    update_user,
     get_all_users,
     get_all_users_json,
     interact,
@@ -12,8 +11,8 @@ from App.controllers import (
     dislike_a_pic,
     update_limit,
     update_views,
-    get_rand_users,
-    get_ranked_users,
+    get_rand_pictures,
+    get_ranked_pictures,
     get_user,
     reset_users
 )

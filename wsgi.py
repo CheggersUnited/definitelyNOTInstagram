@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user )
+from App.controllers import ( create_user, get_all_users_json, get_all_users, get_user, add_picture, add_rating, like_a_pic, dislike_a_pic )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -31,11 +31,14 @@ user_cli = AppGroup('user', help='User object commands')
 @user_cli.command("create", help="Creates a user")
 @click.argument("username", default="rob")
 @click.argument("password", default="robpass")
-@click.argument("email", default="bob@mail.com")
-@click.argument("image", default="https://picsum.photos/600")
-def create_user_command(username, password, email, image):
-    create_user(username, password, email, image)
-    print(f'{username} created!')
+@click.argument("email", default="rob@mail.com")
+def create_user_command(username, password, email):
+    user = create_user(username, password, email)
+    if user:
+        add_picture(user.id, "https://picsum.photos/600")
+        print(f'{username} created!')
+    else:
+        print("user already exists")
 
 # this command will be : flask user create bob bobpass
 
@@ -47,10 +50,30 @@ def list_user_command(format):
     else:
         print(get_all_users_json())
 
+@user_cli.command('addpic', help="Adds a picture to user profile")
+@click.argument('uid')
+def add_pic(uid):
+    add_picture(uid, "https://picsum.photos/600")
+    print("picture added to {}'s profile".format(get_user(uid).username))
+
 @user_cli.command("get", help="Returns a user")
-@click.argument("username", default="rob")
-def get_user_command(username):
-    print(get_user(username))
+@click.argument("id", default="1")
+def get_user_command(id):
+    print(get_user(id))
+
+@user_cli.command("like", help="likes a picture")
+@click.argument("uid")
+@click.argument("pid")
+def like_pic_command(uid, pid):
+    like_a_pic(uid, pid)
+    print('pic liked')
+
+@user_cli.command("dislike", help="dislikes a picture")
+@click.argument("uid")
+@click.argument("pid")
+def dislike_pic_command(uid, pid):
+    dislike_a_pic(uid, pid)
+    print('pic disliked')
 
 app.cli.add_command(user_cli) # add the group to the cli
 
