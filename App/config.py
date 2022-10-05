@@ -4,4 +4,4 @@ from datetime import timedelta
 SQLALCHEMY_DATABASE_URI = "sqlite://///workspace/definitelyNOTInstagram/App/test.db"
 SECRET_KEY = "secret key"
 JWT_EXPIRATION_DELTA = timedelta(minutes=30)
-ENV = "DEVELOPMENT"
+ENV = "PRODUCTION"
