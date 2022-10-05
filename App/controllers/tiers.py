@@ -8,8 +8,8 @@ def interact(id):
         user.points += user.tier
     else:
         user.points += (1 - ((user.tier - 1)/10))
-    tier_update(user)
     db.session.commit()
+    tier_update(user)
     return True
 
 def update_limit(user):

@@ -35,10 +35,6 @@ class User(db.Model):
             'distribution': self.distribution
         }
 
-    def tally_points(self):
-        for picture in self.pictures:
-            self.points += picture.points
-
     def set_password(self, password):
         """Create hashed password."""
         self.password = generate_password_hash(password, method='sha256')

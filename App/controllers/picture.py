@@ -25,6 +25,7 @@ def delete_picture(pid):
 def like_a_pic(uid, pid):
     rating = add_rating(uid, pid, True)
     rating.picture.points += 1
+    rating.picture.user.points += 1
     interact(rating.user.id)
     db.session.commit()
     return True
@@ -35,5 +36,7 @@ def dislike_a_pic(uid, pid):
     interact(rating.user.id)
     if (rating.picture.points - 0.5) > 0:
         rating.picture.points -= 0.5
+    if (rating.picture.user.points - 0.5) > 0:
+        rating.picture.user.points -= 0.5
         db.session.commit()
     return True
