@@ -33,13 +33,14 @@ def loadConfig(app, config):
     delta = 7
     if app.config['ENV'] == "DEVELOPMENT":
         app.config.from_object('App.config')
+        delta = app.config['JWT_EXPIRATION_DELTA']
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
         app.config['DEBUG'] = os.environ.get('ENV').upper() != 'PRODUCTION'
         app.config['ENV'] = os.environ.get('ENV')
-        
-    delta = app.config['JWT_EXPIRATION_DELTA']
+        delta = app.config['JWT_EXPIRATION_DELTA']       
+    
     app.config['JWT_EXPIRATION_DELTA'] =  timedelta(days=int(delta))
 
     for key, value in config.items():
