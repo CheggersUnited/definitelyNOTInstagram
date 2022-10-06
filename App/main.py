@@ -53,4 +53,3 @@ def create_app(config={}):
     app.app_context().push()
     return app
     
-app = create_app()
