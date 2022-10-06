@@ -11,6 +11,7 @@ from App.controllers import (
     dislike_a_pic,
     update_limit,
     update_views,
+    get_picture,
     get_rand_pictures,
     get_ranked_pictures,
     get_user,
@@ -39,36 +40,29 @@ user_views = Blueprint('user_views', __name__, template_folder='../templates')
 # def login():
 #     login_user()
 
-@user_views.route('/loadprofiles', methods=['GET'])
+@user_views.route('/loadpictures', methods=['GET'])
 @jwt_required()
-def loadprofiles():
-    id = current_identity.id
-    users = get_rand_users(id)
-    return jsonify(users)
+def loadpics():
+    pics = get_rand_pictures(current_identity.id)
+    return jsonify([pic.toDict() for pic in pics])
 
-@user_views.route('/like/<profile>',methods=['POST'])
+@user_views.route('/like/<pid>',methods=['POST'])
 @jwt_required()
-def like(profile):
-    user = current_identity
-    profile = get_user(profile)
-    if update_views(user.id):
-        like_a_pic(profile.username)
-        interact(user.username)
+def like(pid):
+    if update_views(current_identity.id):
+        like_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s profile has been liked.".format(profile.username)
+    return "{}'s profile has been liked.".format(get_picture(pid).user.username)
 
-@user_views.route('/dislike/<profile>',methods=['POST'])
+@user_views.route('/dislike/<pid>',methods=['POST'])
 @jwt_required()
-def dislike(profile):
-    user = current_identity
-    profile = get_user(profile)
-    if update_views(user.id):
-        dislike_a_pic(profile.username)
-        interact(user.username)
+def dislike(pid):
+    if update_views(current_identity.id):
+        dislike_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s profile has been disliked.".format(profile.username)
+    return "{}'s profile has been disliked.".format(get_picture(pid).user.username)
 
 @user_views.route('/rankings',methods=['GET'])
 @jwt_required()

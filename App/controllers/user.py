@@ -2,7 +2,6 @@ from App.models import User, Picture
 from App.database import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import desc 
-import random
 
 def get_all_users():
     users = User.query.all()
@@ -31,11 +30,6 @@ def delete_user(id):
         db.session.commit()
         return 'User successfully deleted'
     return 'User not found'
-    
-def get_rand_pictures(id):
-    pictures = Picture.query.filter(Picture.uid != id).all()
-    pictures = random.sample(pictures, len(pictures)) if len(pictures) < 50 else random.sample(pictures, 50)
-    return pictures
 
 def get_ranked_pictures():
     pictures = Picture.query.order_by(Picture.points.desc())

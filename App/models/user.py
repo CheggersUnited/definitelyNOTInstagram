@@ -32,7 +32,8 @@ class User(db.Model):
             'tier': self.tier,
             'limit': self.limit,
             'points': self.points,
-            'pic': self.pictures.all()
+            'views': self.views,
+            'pictures': [pic.toDict() for pic in self.pictures]
         }
 
     def set_password(self, password):
