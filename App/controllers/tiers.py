@@ -9,7 +9,6 @@ def interact(id):
     else:
         user.points += (1 - ((user.tier - 1)/10))
     db.session.commit()
-    update_views(user.id)
     tier_update(user)
     return True
 

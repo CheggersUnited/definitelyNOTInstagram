@@ -8,7 +8,7 @@ class User(db.Model):
     username =  db.Column('username', db.String(60), unique=True, nullable=False)
     password = db.Column('password', db.String(120), nullable=False)
     email = db.Column('email', db.String(60), nullable=False)
-    points = db.Column('points', db.Integer, nullable=False)
+    points = db.Column('points', db.Float, nullable=False)
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
     views = db.Column('views', db.Integer, nullable = False)
@@ -21,7 +21,7 @@ class User(db.Model):
         self.email = email
         self.tier = 1
         self.limit = 5
-        self.points = 0
+        self.points = 0.0
         self.views = 0
 
     def toDict(self):

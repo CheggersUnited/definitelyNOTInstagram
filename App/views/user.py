@@ -53,7 +53,7 @@ def like(pid):
         like_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s profile has been liked.".format(get_picture(pid).user.username)
+    return "{}'s picture has been liked.".format(get_picture(pid).user.username)
 
 @user_views.route('/dislike/<pid>',methods=['POST'])
 @jwt_required()
@@ -62,7 +62,7 @@ def dislike(pid):
         dislike_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s profile has been disliked.".format(get_picture(pid).user.username)
+    return "{}'s picture has been disliked.".format(get_picture(pid).user.username)
 
 @user_views.route('/rankings',methods=['GET'])
 @jwt_required()

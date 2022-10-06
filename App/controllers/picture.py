@@ -8,6 +8,12 @@ import random
 def get_picture(pid):
     return Picture.query.filter_by(pid=pid).first()
 
+def get_all_pictures():
+    return Picture.query.all()
+
+def get_all_pictures_json():
+    return [pic.toDict() for pic in get_all_pictures()]
+
 def add_picture(uid, url):
     picture = Picture(uid=uid, url=url)
     user = get_user(uid)
@@ -40,11 +46,12 @@ def dislike_a_pic(uid, pid):
     rating = add_rating(uid, pid, False)
     interact(rating.user.id)
     rating.picture.dislikes += 1
-    if (rating.picture.points - 0.5) > 0:
+    if (rating.picture.points > 0):
         rating.picture.points -= 0.5
-    if (rating.picture.user.points - 0.5) > 0:
+    if (rating.picture.user.points > 0):
         rating.picture.user.points -= 0.5
         tier_update(rating.picture.user)
+    
     db.session.commit()
     return True
 
