@@ -63,3 +63,7 @@ def get_rand_pictures(id):
         pic.distribution += 1
     db.session.commit()
     return pictures
+
+def get_ranked_pictures():
+    pictures = Picture.query.order_by(Picture.points.desc())
+    return pictures

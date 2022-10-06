@@ -26,3 +26,11 @@ def update_rating(id, rating):
         db.session.commit()
         return rating_obj
     return None
+
+def get_likes(picture):
+    likes = picture.ratings.filter(Rating.rating == True).all()
+    return likes
+
+def get_dislikes(picture):
+    dislikes = picture.ratings.filter(Rating.rating == False).all()
+    return dislikes

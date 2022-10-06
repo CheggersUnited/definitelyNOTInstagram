@@ -31,10 +31,6 @@ def delete_user(id):
         return 'User successfully deleted'
     return 'User not found'
 
-def get_ranked_pictures():
-    pictures = Picture.query.order_by(Picture.points.desc())
-    return pictures
-
 def get_ranked_users():
     users = User.query.order_by(User.points.desc())
     return users

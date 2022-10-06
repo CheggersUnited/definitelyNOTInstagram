@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, send_from_directory
+from flask import Blueprint, jsonify, request
 from flask_jwt import current_identity, jwt_required
 
 from App.controllers import (
@@ -9,36 +9,21 @@ from App.controllers import (
     interact,
     like_a_pic,
     dislike_a_pic,
+    get_likes,
+    get_dislikes,
     update_limit,
     update_views,
     get_picture,
+    add_picture,
+    delete_picture,
     get_rand_pictures,
     get_ranked_pictures,
+    get_ranked_users,
     get_user,
     reset_users
 )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
-
-
-# @user_views.route('/users', methods=['GET'])
-# def get_user_page():
-#     users = get_all_users()
-#     return render_template('users.html', users=users)
-
-# @user_views.route('/api/users')
-# def client_app():
-#     users = get_all_users_json()
-#     return jsonify(users)
-
-# @user_views.route('/static/users')
-# def static_user_page():
-#   return send_from_directory('static', 'static-user.html')
-
-# @jwt_required
-# @user_views.route('/login',methods=['POST'])
-# def login():
-#     login_user()
 
 @user_views.route('/loadpictures', methods=['GET'])
 @jwt_required()
@@ -64,11 +49,17 @@ def dislike(pid):
         return {"Error": "Limit Reached"}
     return "{}'s picture has been disliked.".format(get_picture(pid).user.username)
 
-@user_views.route('/rankings',methods=['GET'])
+@user_views.route('/rankings/users',methods=['GET'])
 @jwt_required()
-def rankings():
+def ranking_users():
     users = get_ranked_users()
-    return jsonify(users)
+    return jsonify([user.toDict() for user in users])
+
+@user_views.route('/rankings/pictures',methods=['GET'])
+@jwt_required()
+def ranking_pictures():
+    pictures = get_ranked_pictures()
+    return jsonify([picture.toDict() for picture in pictures])
 
 @user_views.route('/my',methods=['GET'])
 @jwt_required()
@@ -76,19 +67,38 @@ def show_my_profile():
     user = get_user(current_identity.id)
     return jsonify(user.toDict())
 
-@user_views.route('/delete', methods=['GET'])
+@user_views.route('/addpic', methods=['POST'])
+@jwt_required()
+def add_a_picture():
+    data = request.get_json()
+    return add_picture(current_identity.id, data['url'])
+    
+@user_views.route('/deletepic/<pid>', methods=['DELETE'])
+@jwt_required()
+def delete_a_picture(pid):
+    return delete_picture(pid)
+
+@user_views.route('/delete', methods=['DELETE'])
 @jwt_required()
 def delete_my_profile():
     return delete_user(current_identity.id)
 
-@user_views.route('/update', methods=['POST'])
+@user_views.route('/<pid>/likes', methods=['GET'])
 @jwt_required()
-def update_profile_picture():
-    data = request.get_json()
-    if data:
-        return update_user(current_identity.id, data['image'])
-    return {'error': 'Unsuccessful update'}
+def get_picture_likes(pid):
+    picture = get_picture(pid)
+    likes = get_likes(picture)
+    return jsonify([like.toDict() for like in likes])
 
+@user_views.route('/<pid>/dislikes', methods=['GET'])
+@jwt_required()
+def get_picture_dislikes(pid):
+    picture = get_picture(pid)
+    dislikes = get_dislikes(picture)
+    return jsonify([dislike.toDict() for dislike in dislikes])
+
+
+# This view is used when testing
 @user_views.route('/reset', methods=['GET'])
 def reset():
     reset_users()
