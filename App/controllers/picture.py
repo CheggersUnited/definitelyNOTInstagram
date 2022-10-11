@@ -3,9 +3,16 @@ from App.database import db
 from App.controllers.rating import add_rating
 from App.controllers.tiers import *
 from App.controllers.user import get_user
+import random
 
 def get_picture(pid):
     return Picture.query.filter_by(pid=pid).first()
+
+def get_all_pictures():
+    return Picture.query.all()
+
+def get_all_pictures_json():
+    return [pic.toDict() for pic in get_all_pictures()]
 
 def add_picture(uid, url):
     picture = Picture(uid=uid, url=url)
@@ -39,10 +46,24 @@ def dislike_a_pic(uid, pid):
     rating = add_rating(uid, pid, False)
     interact(rating.user.id)
     rating.picture.dislikes += 1
-    if (rating.picture.points - 0.5) > 0:
+    if (rating.picture.points > 0):
         rating.picture.points -= 0.5
-    if (rating.picture.user.points - 0.5) > 0:
+    if (rating.picture.user.points > 0):
         rating.picture.user.points -= 0.5
         tier_update(rating.picture.user)
-        db.session.commit()
+    
+    db.session.commit()
     return True
+
+def get_rand_pictures(id):
+    pictures = Picture.query.filter(Picture.uid != id)
+    pictures = pictures.filter(Picture.distribution < User.limit).all()
+    pictures = random.sample(pictures, len(pictures)) if len(pictures) < 50 else random.sample(pictures, 50)
+    for pic in pictures:
+        pic.distribution += 1
+    db.session.commit()
+    return pictures
+
+def get_ranked_pictures():
+    pictures = Picture.query.order_by(Picture.points.desc())
+    return pictures

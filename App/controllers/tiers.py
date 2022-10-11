@@ -9,7 +9,6 @@ def interact(id):
     else:
         user.points += (1 - ((user.tier - 1)/10))
     db.session.commit()
-    update_views(user.id)
     tier_update(user)
     return True
 
@@ -29,5 +28,6 @@ def tier_update(user):
     user.tier = int(user.points / 10) + 1
     if user.tier != tier:
         update_limit(user)
+        print('Your account has been upgraded to Tier {}'.format(user.tier))
     db.session.commit()
     return True

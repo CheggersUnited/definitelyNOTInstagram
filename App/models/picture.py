@@ -7,7 +7,7 @@ class Picture(db.Model):
     pid = db.Column('pid', db.Integer, primary_key=True)
     uid = db.Column('uid', db.Integer, ForeignKey('user.id'))
     url = db.Column('url', db.String(60), nullable=False)
-    points = db.Column('points', db.Integer, nullable=False)
+    points = db.Column('points', db.Float, nullable=False)
     likes = db.Column('likes', db.Integer, nullable=False)
     dislikes = db.Column('dislikes', db.Integer, nullable=False)
     distribution = db.Column('distribution', db.Integer, nullable=False)
@@ -16,7 +16,7 @@ class Picture(db.Model):
     def __init__(self, uid, url):
         self.uid = uid
         self.url = url
-        self.points = 0
+        self.points = 0.0
         self.likes = 0
         self.dislikes = 0
         self.distribution = 0
