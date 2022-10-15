@@ -43,6 +43,19 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", password)
         assert user.check_password(password)
 
+class PictureUnitTests(unittest.TestCase):
+
+    def test_new_picture():
+        pass
+
+    def test_picture_tojson():
+        pass
+
+
+class RatingUnitTests(unittest.TestCase):
+    pass
+
+
 '''
     Integration Tests
 '''
