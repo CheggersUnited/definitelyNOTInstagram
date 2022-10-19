@@ -27,10 +27,29 @@ class UserUnitTests(unittest.TestCase):
         user = User("bob", "bobpass")
         assert user.username == "bob"
 
-    def test_toJSON(self):
+    def test_toDict(self):
+        """
+        
+        id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'tier': self.tier,
+            'limit': self.limit,
+            'points': self.points,
+            'views': self.views,
+            'pictures': [pic.toDict() for pic in self.pictures]
+        
+    
+        """
         user = User("bob", "bobpass")
-        user_json = user.toJSON()
+        user_json = user.toDict()
         self.assertDictEqual(user_json, {"id":None, "username":"bob"})
+        
+
+    def test_return_type(self):
+        #self.assertIsInstance(obj, cls)
+        pass
+
     
     def test_hashed_password(self):
         password = "mypass"
@@ -53,7 +72,15 @@ class PictureUnitTests(unittest.TestCase):
 
 
 class RatingUnitTests(unittest.TestCase):
-    pass
+    
+    def  test_create_rating(self):
+        pass
+
+    def test_rating_structure(self):
+        pass
+
+
+
 
 
 '''
@@ -88,3 +115,28 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+
+class PictureIntegrationTests(unittest.TestCase):
+
+    def test_add_image(self):
+        pass
+    
+    def test_delete_image(self):
+        pass
+
+    def test_like_image(self):
+        pass
+    
+    def test_dislike_image(self):
+        pass
+
+class RatingIntegrationTests(unit.TestCase):
+
+    def test_create_rating(self):
+        pass
+
+    def test_upate_rating(self):
+        pass
+
+    def test_delete_rating(self):
+        pass
