@@ -29,6 +29,5 @@ class Picture(db.Model):
             'likes': self.likes,
             'dislikes': self.dislikes,
             'points': self.points,
-            'distribution': self.distribution,
-            'username': self.user.username
+            'distribution': self.distribution
         }
