@@ -19,7 +19,5 @@ class Rating(db.Model):
             'id': self.id,
             'uid': self.uid,
             'pid': self.pid,
-            'rating': self.rating,
-            'picture': self.picture.url,
-            'username': self.user.username 
+            'rating': self.rating
         }
