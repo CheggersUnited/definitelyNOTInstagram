@@ -1,7 +1,7 @@
 
 ANY ADDITIONS MADE MUST BE DONE IN A "NEW" BRANCH FIRST THEN MERGE AFTER REVIEW.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/CheggersUnited/definitelyNOTInstagram)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ShivsTKD/definitelyNOTInstagram)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ![Tests](https://github.com/uwidcit/flaskmvc/actions/workflows/dev.yml/badge.svg)
