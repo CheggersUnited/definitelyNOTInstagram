@@ -20,7 +20,7 @@ def add_picture(uid, url):
     if len(user.pictures.all()) < 5:
         db.session.add(picture)
         db.session.commit()
-        return picture
+        return picture.toDict()
     return {"Error": "Unable to add any more pictures. Limit reached."}
 
 def delete_picture(pid):
