@@ -12,8 +12,8 @@ class User(db.Model):
     tier = db.Column('tier', db.Integer,nullable=False)
     limit = db.Column('limit', db.Integer, nullable=False)
     views = db.Column('views', db.Integer, nullable = False)
-    ratings = db.relationship('Rating', backref='user', lazy='dynamic')
-    pictures = db.relationship('Picture', backref='user', lazy='dynamic')
+    ratings = db.relationship('Rating', backref='user', lazy='dynamic', cascade="all, delete-orphan")
+    pictures = db.relationship('Picture', backref='user', lazy='dynamic', cascade="all, delete-orphan")
 
     def __init__(self, username, password, email):
         self.username = username
