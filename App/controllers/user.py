@@ -21,7 +21,7 @@ def create_user(username, password, email):
         db.session.commit()
         return newuser
     except IntegrityError:
-        return None
+        return {"Error": "User already exists"}
 
 def delete_user(id):
     user = get_user(id)
