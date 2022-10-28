@@ -19,7 +19,7 @@ def create_user(username, password, email):
     try:
         db.session.add(newuser)
         db.session.commit()
-        return newuser
+        return newuser.toDict()
     except IntegrityError:
         return {"Error": "User already exists"}
 
