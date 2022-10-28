@@ -15,8 +15,8 @@ def delete_rating(id):
     if rating:
         db.session.delete(rating)
         db.session.commit()
-        return f'Rating was successfully deleted'
-    return f'Invalid rating specified'
+        return {"Message": "Rating was successfully deleted"}
+    return {"Error": "Invalid rating specified"}
 
 def update_rating(id, rating):
     rating_obj = get_rating(id)

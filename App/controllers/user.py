@@ -28,8 +28,8 @@ def delete_user(id):
     if user:
         db.session.delete(user)
         db.session.commit()
-        return f'User successfully deleted'
-    return f'User not found'
+        return {"Message": "User successfully deleted"}
+    return {"Error": "User not found"}
 
 def update_user(id, username):
     user = get_user(id)
@@ -37,7 +37,7 @@ def update_user(id, username):
         user.username = username
         db.session.commit()
         return user
-    return f'User not found'
+    return {"Error": "User not found"}
 
 def get_ranked_users():
     users = User.query.order_by(User.points.desc())

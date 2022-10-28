@@ -21,15 +21,15 @@ def add_picture(uid, url):
         db.session.add(picture)
         db.session.commit()
         return picture
-    return f'Unable to add any more pictures. Limit reached.'
+    return {"Error": "Unable to add any more pictures. Limit reached."}
 
 def delete_picture(pid):
     picture = get_picture(pid)
     if picture:
         db.session.delete(picture)
         db.session.commit()
-        return f'Picture was successfully removed'
-    return f'Invalid picture selected'
+        return {"Message": "Picture was successfully removed"}
+    return {"Error": "Invalid picture selected"}
 
 def like_a_pic(uid, pid):
     rating = add_rating(uid, pid, True)
