@@ -71,7 +71,7 @@ def show_my_profile():
 @jwt_required()
 def add_a_picture():
     data = request.get_json()
-    return add_picture(current_identity.id, data['url'])
+    return jsonify(add_picture(current_identity.id, data['url']).toDict())
     
 @user_views.route('/deletepic/<pid>', methods=['DELETE'])
 @jwt_required()
