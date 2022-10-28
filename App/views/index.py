@@ -15,5 +15,5 @@ def index_page():
 def signup():
     data = request.get_json()
     if data:
-        return create_user(data['username'], data['password'], data['email']).toDict()
+        return create_user(data['username'], data['password'], data['email'])
     return {"Error": "Unsuccessful creation"}
