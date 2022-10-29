@@ -38,7 +38,7 @@ def like(pid):
         like_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s picture has been liked.".format(get_picture(pid).user.username)
+    return {"Message": "{}'s picture has been liked.".format(get_picture(pid).user.username)}
 
 @user_views.route('/dislike/<pid>',methods=['POST'])
 @jwt_required()
@@ -47,7 +47,7 @@ def dislike(pid):
         dislike_a_pic(current_identity.id, pid)
     else:
         return {"Error": "Limit Reached"}
-    return "{}'s picture has been disliked.".format(get_picture(pid).user.username)
+    return {"Message": "{}'s picture has been disliked.".format(get_picture(pid).user.username)}
 
 @user_views.route('/rankings/users',methods=['GET'])
 @jwt_required()
@@ -71,7 +71,7 @@ def show_my_profile():
 @jwt_required()
 def add_a_picture():
     data = request.get_json()
-    return add_picture(current_identity.id, data['url'])
+    return jsonify(add_picture(current_identity.id, data['url']))
     
 @user_views.route('/deletepic/<pid>', methods=['DELETE'])
 @jwt_required()

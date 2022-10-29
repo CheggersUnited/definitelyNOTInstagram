@@ -19,17 +19,17 @@ def create_user(username, password, email):
     try:
         db.session.add(newuser)
         db.session.commit()
-        return newuser
+        return newuser.toDict()
     except IntegrityError:
-        return None
+        return {"Error": "User already exists"}
 
 def delete_user(id):
     user = get_user(id)
     if user:
         db.session.delete(user)
         db.session.commit()
-        return 'User successfully deleted'
-    return 'User not found'
+        return {"Message": "User successfully deleted"}
+    return {"Error": "User not found"}
 
 def update_user(id, username):
     user = get_user(id)
@@ -37,7 +37,7 @@ def update_user(id, username):
         user.username = username
         db.session.commit()
         return user
-    return 'User not found'
+    return {"Error": "User not found"}
 
 def get_ranked_users():
     users = User.query.order_by(User.points.desc())

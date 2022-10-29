@@ -20,16 +20,16 @@ def add_picture(uid, url):
     if len(user.pictures.all()) < 5:
         db.session.add(picture)
         db.session.commit()
-        return picture
-    return 'Unable to add any more pictures. Limit reached.'
+        return picture.toDict()
+    return {"Error": "Unable to add any more pictures. Limit reached."}
 
 def delete_picture(pid):
     picture = get_picture(pid)
     if picture:
         db.session.delete(picture)
         db.session.commit()
-        return 'Picture was successfully removed'
-    return 'Invalid picture selected'
+        return {"Message": "Picture was successfully removed"}
+    return {"Error": "Invalid picture selected"}
 
 def like_a_pic(uid, pid):
     rating = add_rating(uid, pid, True)
